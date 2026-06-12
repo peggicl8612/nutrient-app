@@ -1,11 +1,17 @@
 {
   "expo": {
-    "name": "nutrient-app",
+    "name": "營養食刻",
     "slug": "nutrient-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "nutrient-app",
+    "plugins": [
+      "expo-font",
+      "expo-router",
+      "expo-sqlite"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -18,6 +24,7 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
     }
   }
