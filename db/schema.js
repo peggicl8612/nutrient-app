@@ -1,4 +1,4 @@
-export const DATABASE_VERSION = 1;
+export const DATABASE_VERSION = 2;
 
 export const CREATE_MEALS_TABLE = `
   CREATE TABLE IF NOT EXISTS meals (
@@ -11,6 +11,7 @@ export const CREATE_MEALS_TABLE = `
     carbs       REAL NOT NULL DEFAULT 0,
     fat         REAL NOT NULL DEFAULT 0,
     fiber       REAL DEFAULT 0,
+    custom_nutrients TEXT DEFAULT '[]',
     photo_url   TEXT,
     remote_id   TEXT,
     synced_at   TEXT,
@@ -59,7 +60,16 @@ export async function migrateDatabase(db) {
         // 未來升級範例：
         // if (currentVersion === 1) { ... }
         
-        await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
+      await db.execAsync(`PRAGMA user_version = 2`);
+      return;
     }
+  
+  /* 自定義營養成分 */
+  if (currentVersion === 1) {
+    await db.execAsync(`
+      ALTER TABLE meals ADD COLUMN custom_nutrients TEXT DEFAULT '[]';
+      PRAGMA user_version = 2;
+      `)
+  }
 }
 

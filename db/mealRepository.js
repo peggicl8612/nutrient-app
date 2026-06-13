@@ -21,8 +21,8 @@ export async function addMeal(db, meal) {
 
     await db.runAsync(
         `INSERT INTO meals (
-          id, date, meal_type, food_name, calories, protein, carbs, fat, fiber, photo_url, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          id, date, meal_type, food_name, calories, protein, carbs, fat, fiber, custom_nutrients, photo_url, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         id,
         meal.date,
         meal.mealType,
@@ -32,6 +32,10 @@ export async function addMeal(db, meal) {
         meal.carbs ?? 0,
         meal.fat ?? 0,
         meal.fiber ?? 0,
+        meal.customNutrients?.length
+            ? JSON.stringify(meal.customNutrients)
+            : '[]'
+        ,
         meal.photoUrl ?? null,
         now,
         now
